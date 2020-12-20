@@ -40,8 +40,10 @@ void push(stack_t **stack, line_t *line)
 
 	current = *stack;
 	newNode = malloc(sizeof(stack_t));
-	//if (!newNode)
-	//	return (NULL);
+	/*
+	if (!newNode)
+		return (NULL);
+	*/
 	newNode->n = atoi(line->arg);
 	newNode->next = NULL;
 

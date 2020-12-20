@@ -29,7 +29,6 @@ char *parse_line(char **instruction)
 	if (!instruction || !*instruction)
 		return (NULL);
 	token = *instruction;
-	//printf("0000token = %s\n", token);
 	if (token[0] == '\0')
 		return (NULL);
 	while (**instruction)
@@ -44,7 +43,6 @@ char *parse_line(char **instruction)
 		*instruction += 1;
 	}
 
-	//printf("token = %s\n", token);
 	return (token);
 }
 
@@ -154,8 +152,6 @@ char *core_program(char *line, int idxLine, stack_t **head_list)
 	char *token = NULL;
 	line_t *instruction = NULL;
 
-	/*
-	*/
 	instruction = create_obj(sizeof(line_t));
 	instruction->command = NULL;
 	instruction->arg = NULL;
@@ -187,12 +183,6 @@ char *core_program(char *line, int idxLine, stack_t **head_list)
 	else
 	{
 		check_for_built_in(head_list, instruction);
-		/*
-		printf("com = %s\n", instruction->command );
-		printf("arg = %s\n", instruction->arg );
-		printf("idxLine = %d\n", instruction->idx );
-		printf(" \n"  );
-		*/
 	}
 
 	return (NULL);
