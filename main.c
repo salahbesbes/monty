@@ -207,16 +207,12 @@ int read_file(char *filename, stack_t **head_list)
 		res = core_program(newLine, idxLine, head_list);
 		if (!res)
 		{
-			//free(line_ptr);
-			//fclose(stream_ptr);
 			__exit(*head_list);
 		}
 		else if (*res == '\0')
 			continue;
 
 	}
-	//free(line);
-	//fclose(stream);
 	__exit(*head_list);
 	return (EXIT_SUCCESS);
 }
