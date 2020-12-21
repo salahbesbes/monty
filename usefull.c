@@ -3,6 +3,10 @@
 
 
 
+
+
+
+
 /**
 * write_message - print an message at stderror
 * @arg1: msg

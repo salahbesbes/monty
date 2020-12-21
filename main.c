@@ -10,37 +10,6 @@ FILE *stream_ptr = NULL;
 char *line_ptr = NULL;
 
 /**
-* parse_line - parse an instruction by one or more char in the string
-* @instruction: instruction of line
-*
-* Return: char
-*/
-char *parse_line(char **instruction)
-{
-	char *token = NULL;
-
-	if (!instruction || !*instruction)
-		return (NULL);
-	token = *instruction;
-	if (token[0] == '\0')
-		return (NULL);
-	while (**instruction)
-	{
-		if (**instruction == ' ' || **instruction == '\t')
-		{
-			**instruction = '\0';
-			while (isNotAlpha(**instruction) && isNotNum(**instruction))
-				(*instruction)++;
-			break;
-		}
-		*instruction += 1;
-	}
-
-	return (token);
-}
-
-
-/**
  * trim_instruction - trim string
  * @inst: instruction
  * @delim: delimitation
@@ -66,10 +35,7 @@ char *trim_instruction(char *inst, char *delim)
 		break;
 	}
 	if (current[i] == '\0')
-	{
-		destroy_obj(inst);
-		return (NULL);
-	}
+		return ("");
 	while (current[i])
 	{
 		if (isAlpha(current[i]) || isNum(current[i]))
@@ -123,8 +89,7 @@ char *check_for_comment(char *str)
 */
 char *core_program(char *line, int idxLine, stack_t **head_list)
 {
-	int istoken = 1;
-	char *token = NULL, *res = NULL;
+	char *res = NULL, **ar_tokens = NULL;
 	line_t *instruction = NULL;
 
 	instruction = create_obj(sizeof(line_t));
@@ -136,27 +101,22 @@ char *core_program(char *line, int idxLine, stack_t **head_list)
 	if (!line || *line == '\0')
 		return (NULL);
 	line = trim_instruction(line, " \t\n");
-
-	if (!line || *line == '\0')
+	if (!line)
 		return (NULL);
 	else if (*line == '\0')
 		return ("");
 
-	/* parse instruction into token and save them to struct */
-	while (istoken)
+	ar_tokens = create_ar_tokens(&line);
+	if (!ar_tokens)
 	{
-		/* since we insert int into gc we cant move the pointer line as we want */
-		token = parse_line(&line);
-		if (!token || istoken > 2) /* we dont want args more than 1 */
-			break;
-		token = copy_obj(strlen(token) + 1, token);
-		if (istoken == 1)
-			instruction->command = token;
-		if (istoken == 2)
-			instruction->arg = token;
-		istoken++;
+		/*
+		sprintf(nb_line, "%d", idxLine);
+		print_error("L", nb_line, ": usage: ",ar_tokens[0], " integer");
+		*/
+		return (NULL);
 	}
-
+	instruction->command = ar_tokens[0];
+	instruction->arg = ar_tokens[1];
 	res = check_for_built_in(head_list, instruction);
 	return (res);
 }
@@ -228,8 +188,6 @@ int read_file(char *filename, stack_t **head_list)
 int main(int argc, char *argv[])
 {
 	stack_t *head_list = NULL;
-
-
 	if (argc != 2)
 	{
 		print_error("USAGE: monty file", "", "", "");
@@ -237,6 +195,7 @@ int main(int argc, char *argv[])
 	}
 
 	read_file(argv[1], &head_list);
-
+	/*
+	*/
 	return (0);
 }

@@ -19,10 +19,12 @@ void pall(stack_t **stack, __attribute__((unused)) line_t *line)
 	current = *stack;
 	if (!current)
 		__exit(*stack);
+	while (current->next)
+		current = current->next;
 	while (current)
 	{
 		printf("%d\n", current->n);
-		current = current->next;
+		current = current->prev;
 	}
 }
 
@@ -45,12 +47,12 @@ void push(stack_t **stack, line_t *line)
 	{
 		sprintf(nb_line, "%d", line->idx);
 		print_error("L", nb_line, ": usage: push integer", "");
-		return;
+		__exit(*stack);
 	}
 	newNode = malloc(sizeof(stack_t));
 	if (!newNode)
 	{
-		print_error("Error: malloc failed", "\n", "", "");
+		print_error("Error: malloc failed", "", "", "");
 		return;
 	}
 	newNode->n = atoi(line->arg);
@@ -91,6 +93,15 @@ void (*get_builtin_func(line_t *inst))(stack_t**, line_t *)
 	instruction_t exec[] = {
 		{"push", push},
 		{"pall", pall},
+		{"pint", pint},
+		{"pop", pop},
+		{"swap", swap},
+		{"add", add},
+		{"nop", nop},
+		{"divv", divv},
+		{"sub", sub},
+		{"mul", mul},
+		{"mod", mod},
 		{NULL, NULL}
 	};
 	for (i = 0; exec[i].opcode && inst->command; i++)

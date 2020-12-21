@@ -71,6 +71,18 @@ int str_is_eq(char *str1, char *str2);
 char *check_for_built_in(stack_t **head_list, line_t *inst);
 void print_error(char *arg1, char *arg2, char *arg3, char *arg4);
 int is_number(char *str);
+char **create_ar_tokens(char **line);
+int _ar_len(void **V);
+void pint(stack_t **stack, line_t *line);
+void pop(stack_t **stack, line_t *line);
+void swap(stack_t **stack, line_t *line);
+void add(stack_t **stack, line_t *line);
+void sub(stack_t **stack, line_t *line);
+void divv(stack_t **stack, line_t *line);
+void mod(stack_t **stack, line_t *line);
+void mul(stack_t **stack, line_t *line);
+void nop(stack_t **stack, line_t *line);
+
 
 
 #endif

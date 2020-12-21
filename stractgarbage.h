@@ -28,6 +28,8 @@ int delete_garbage_at_index(gc_t **head, unsigned int index);
 gc_t *add_garbage_end(gc_t **head, void *garbage);
 gc_t *get_garbage_at_index(gc_t *head, unsigned int index);
 
+gc_t *insert_garbage_at_index(gc_t **h, unsigned int idx, void *garbage);
+size_t gc_len(const gc_t *h);
 
 
 #endif
