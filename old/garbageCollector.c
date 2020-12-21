@@ -1,7 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
+#include "garbageCollector.h"
+#include "stractgarbage.h"
 #include "monty.h"
+gc_t *gc;
 
-gc_t *gc = NULL;
 /**
 * copy_obj - allocate and copy string
 * @size: size to allocate
@@ -21,6 +26,7 @@ void *copy_obj(size_t size, void *ptr)
 		return (NULL);
 
 	newPtr = malloc(size);
+
 	if (!newPtr)
 		return (NULL);
 	for (i = 0; i < size - 1; i++)

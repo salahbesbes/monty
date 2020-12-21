@@ -17,29 +17,23 @@ typedef struct garbageCollector_s
 	struct garbageCollector_s *prev;
 } gc_t;
 
-size_t print_gc(const gc_t *h);
+int delete_garbage_at_index(gc_t **head, unsigned int index);
 size_t gc_len(const gc_t *h);
 gc_t *add_garbage(gc_t **head, void *garbage);
 gc_t *add_garbage_end(gc_t **head, void *garbage);
 void free_gc(gc_t *head);
-gc_t *get_garbage_at_index(gc_t *head, unsigned int index);
 gc_t *insert_garbage_at_index(gc_t **h, unsigned int idx, void *garbage);
+size_t print_gc(const gc_t *h);
 int delete_garbage_at_index(gc_t **head, unsigned int index);
+gc_t *add_garbage_end(gc_t **head, void *garbage);
+gc_t *get_garbage_at_index(gc_t *head, unsigned int index);
 
+gc_t *insert_garbage_at_index(gc_t **h, unsigned int idx, void *garbage);
+size_t gc_len(const gc_t *h);
 
-
-
-
-
-
-void destroy_all(void);
-void *copy_obj(size_t size, void *ptr);
 void *create_obj(size_t size);
-void *save_at_first(size_t size);
 void destroy_obj(void *ptr);
-
-
-
-
-
+void *copy_obj(size_t size, void *ptr);
+void clear_gc(void);
+void *save_at_first(size_t size);
 #endif

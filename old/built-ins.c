@@ -205,7 +205,7 @@ void sub(stack_t **stack, line_t *line)
 
 
 /**
-* div - div the top two elements of the stack.
+* divv - div the top two elements of the stack.
 * @stack: head of stack
 * @line: instruction
 *
@@ -239,7 +239,11 @@ void divv(stack_t **stack, line_t *line)
 
 	lastNode = current;
 	beforeLast = current->prev;
-
+	if (lastNode->n == 0)
+	{
+		print_error("L", line_nb, ": division by zero", "");
+		__exit(*stack);
+	}
 	beforeLast->n /= lastNode->n;
 	beforeLast->next = NULL;
 	free(lastNode);
@@ -282,7 +286,11 @@ void mul(stack_t **stack, line_t *line)
 
 	lastNode = current;
 	beforeLast = current->prev;
-
+	if (lastNode->n == 0)
+	{
+		print_error("L", line_nb, ": division by zero", "");
+		__exit(*stack);
+	}
 	beforeLast->n *= lastNode->n;
 	beforeLast->next = NULL;
 	free(lastNode);
@@ -329,4 +337,116 @@ void mod(stack_t **stack, line_t *line)
 	beforeLast->next = NULL;
 	free(lastNode);
 
+}
+
+/**
+* pchar - pchar prit the escii code of the top node
+* @stack: head of stack
+* @line: instruction
+*
+* Return: void
+*/
+void pchar(stack_t **stack, line_t *line)
+{
+	stack_t *current = NULL, *lastNode = NULL;
+	char line_nb[15];
+	int len = 1;
+
+	current = *stack;
+	sprintf(line_nb, "%d", line->idx);
+
+	if (!current)
+	{
+		print_error("L", line_nb, ": can't pchar, stack empty", "");
+		__exit(*stack);
+	}
+
+	while (current->next)
+	{
+		current = current->next;
+		len++;
+	}
+
+	lastNode = current;
+	if (lastNode->n > 32 && lastNode->n < 127)
+		printf("%c\n", lastNode->n);
+	else
+	{
+		print_error("L", line_nb,": can't pchar, value out of range","");
+		__exit(*stack);
+	}
+
+}
+
+
+
+/**
+* pstr - pstr print all int as escii code
+* @stack: head of stack
+* @line: instruction
+*
+* Return: void
+*/
+void pstr(stack_t **stack, line_t *line)
+{
+	stack_t *current = NULL;
+	char line_nb[15];
+	int len = 1;
+
+	current = *stack;
+	sprintf(line_nb, "%d", line->idx);
+
+	if (!current)
+	{
+		printf("\n");
+		__exit(*stack);
+	}
+
+	while (current->next)
+	{
+		current = current->next;
+		len++;
+	}
+	while (current)
+	{
+		if ((current->n < 32 && current->n >= 127) || current->n == 0)
+			break;
+		else
+			printf("%c", current->n);
+		current = current->prev;
+	}
+	printf("\n");
+
+}
+
+
+/**
+* rotl - rotl The top element of the stack becomes the last one,
+* and the second top element of the stack becomes the first one
+* @stack: head of stack
+* @line: instruction
+*
+* Return: void
+*/
+void rotl(stack_t **stack, line_t *line)
+{
+	stack_t *current = NULL, *firstNode = NULL, *top = NULL;
+	char line_nb[15];
+	int len = 1;
+
+	current = *stack;
+	sprintf(line_nb, "%d", line->idx);
+
+	if (current && current->next)
+	{
+		firstNode = current;
+		printf("f->n = %d\n", firstNode->n);
+		while (current->next)
+		{
+			current = current->next;
+			len++;
+		}
+		top = current;
+
+	}
 }

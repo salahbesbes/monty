@@ -1,8 +1,10 @@
 #include "monty.h"
-#include "stractgarbage.h"
+#include "garbageCollector.h"
 
-extern line_t *instruction;
-extern gc_t *gc;
+#include <stdio.h>
+#include <stdlib.h>
+
+
 /**
 * pall - print the stack
 * @stack: head_list
@@ -10,13 +12,13 @@ extern gc_t *gc;
 *
 * Return: void
 */
-void pall(stack_t **stack,  __attribute__((unused)) unsigned int line_number)
+void pall(stack_t **stack, __attribute__((unused)) line_t *line)
 {
 	const stack_t *current = NULL;
 
 	current = *stack;
 	if (!current)
-		return;
+		__exit(*stack);
 	while (current->next)
 		current = current->next;
 	while (current)
@@ -35,23 +37,25 @@ void pall(stack_t **stack,  __attribute__((unused)) unsigned int line_number)
 *
 * Return: void
 */
-void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
+void push(stack_t **stack, line_t *line)
 {
 	stack_t *newNode = NULL, *current = NULL;
+	char nb_line[15];
 
 	current = *stack;
-	if (!instruction->arg || !is_number(instruction->arg))
+	if (!line->arg || !is_number(line->arg))
 	{
-		print_error("L", instruction->idx, ": usage: push integer", "");
+		sprintf(nb_line, "%d", line->idx);
+		print_error("L", nb_line, ": usage: push integer", "");
 		__exit(*stack);
 	}
 	newNode = malloc(sizeof(stack_t));
 	if (!newNode)
 	{
 		print_error("Error: malloc failed", "", "", "");
-		__exit(*stack);
+		return;
 	}
-	newNode->n = atoi(instruction->arg);
+	newNode->n = atoi(line->arg);
 	newNode->next = NULL;
 
 	if (!*stack)
@@ -81,14 +85,14 @@ void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 * Return: void function(**stack_t, unsigned int idx)
 * Error: NULL
 */
-void (*get_builtin_func())(stack_t**, unsigned int )
+void (*get_builtin_func(line_t *inst))(stack_t**, line_t *)
 {
 	int i = 0, found = 0;
+	char nb_line[15];
 
 	instruction_t exec[] = {
 		{"push", push},
 		{"pall", pall},
-        /*
 		{"pint", pint},
 		{"pop", pop},
 		{"swap", swap},
@@ -101,20 +105,20 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 		{"pchar", pchar},
 		{"pstr", pstr},
 		{"rotl", rotl},
-		*/
-        {NULL, NULL}
+		{NULL, NULL}
 	};
-	for (i = 0; exec[i].opcode && instruction->command; i++)
+	for (i = 0; exec[i].opcode && inst->command; i++)
 	{
-		found = str_is_eq(exec[i].opcode, instruction->command);
+		found = str_is_eq(exec[i].opcode, inst->command);
 		if (found)
 		{
 			return (exec[i].f);
 		}
 	}
 
+	sprintf(nb_line, "%d", inst->idx);
 	if (!found)
-		print_error("L", instruction->idx, ": unknown instruction ", instruction->command);
+		print_error("L", nb_line, ": unknown instruction ", inst->command);
 	return (NULL);
 }
 
@@ -124,14 +128,14 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 *
 * Return: void
 */
-char *check_for_built_in(stack_t **head_list)
+char *check_for_built_in( stack_t **head_list, line_t *inst)
 {
-	void (*builtin_func)(stack_t **stack, unsigned int line_number);
+	void (*builtin_func)(stack_t **stack, line_t *line);
 
-	builtin_func = get_builtin_func();
+	builtin_func = get_builtin_func(inst);
 	if (builtin_func)
 	{
-		builtin_func(head_list, atoi(instruction->idx));
+		builtin_func(head_list, inst);
 		return ("OK");
 	}
 	return (NULL);
