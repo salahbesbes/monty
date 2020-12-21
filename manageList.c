@@ -156,16 +156,19 @@ void free_gc(gc_t *head)
 gc_t *get_garbage_at_index(gc_t *head, unsigned int index)
 {
 	unsigned int i = 0;
+	gc_t *current = NULL;
 
-	while (i <= index && head)
+	current = head;
+
+	while (i <= index && current)
 	{
 		if (i == index)
-			return (head);
-		head = head->next;
+			return (current);
+		current = current->next;
 		i++;
 	}
 
-	return (head);
+	return (current);
 
 }
 
@@ -173,7 +176,6 @@ gc_t *get_garbage_at_index(gc_t *head, unsigned int index)
 /**
 * insert_garbage_at_index - insert_garbage_at_index
 * @h: head
-* @garbage: garbage ptr
 * @idx: index
 *
 * Return: head

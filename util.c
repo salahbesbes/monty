@@ -1,10 +1,15 @@
 #include "stractgarbage.h"
-#include "header.h"
+#include "garbageCollector.h"
+#include "monty.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 
 extern gc_t *gc;
+extern FILE *stream_ptr;
+extern char *line_ptr;
 /**
  * str_is_eq - compare two given strings and see if they are the same
  * @str1: first string
@@ -69,6 +74,11 @@ void free_stack(stack_t *head)
 */
 void __exit(stack_t *heah_list)
 {
+
+	if (stream_ptr)
+		fclose(stream_ptr);
+	if (line_ptr)
+		free(line_ptr);
 	free_gc(gc);
 	free_stack(heah_list);
 	exit(EXIT_FAILURE);

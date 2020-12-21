@@ -4,7 +4,7 @@
 
 #include "garbageCollector.h"
 #include "stractgarbage.h"
-#include "header.h"
+#include "monty.h"
 gc_t *gc;
 
 /**
@@ -47,15 +47,44 @@ void *copy_obj(size_t size, void *ptr)
 void *create_obj(size_t size)
 {
 	void *newPtr = NULL;
+	void *res = NULL;
 
 	if (size)
 	{
 		newPtr = malloc(size);
-		add_garbage(&gc, newPtr);
+		if (!newPtr)
+			return (NULL);
+		res = add_garbage_end(&gc, newPtr);
+		if (!res)
+			return (NULL);
 	}
 	return (newPtr);
 }
 
+/**
+* save_at_first - save poiter to the head of the list
+* @size: size to allocate
+*
+* Return: void
+*/
+void *save_at_first(size_t size)
+{
+
+	void *newPtr = NULL;
+	void *res = NULL;
+
+	if (size)
+	{
+		newPtr = malloc(size);
+		if (!newPtr)
+			return (NULL);
+		res = add_garbage(&gc, newPtr);
+		if (!res)
+			return (NULL);
+	}
+	return (newPtr);
+
+}
 
 /**
 * destroy_obj - search for the pointer and free it

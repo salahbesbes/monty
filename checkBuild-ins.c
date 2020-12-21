@@ -1,6 +1,8 @@
-#include "header.h"
-#include <stdlib.h>
+#include "monty.h"
+#include "garbageCollector.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 
 
 /**
@@ -10,11 +12,13 @@
 *
 * Return: void
 */
-void pall(stack_t **stack, __attribute__((unused))line_t *line)
+void pall(stack_t **stack, __attribute__((unused)) line_t *line)
 {
 	const stack_t *current = NULL;
 
 	current = *stack;
+	if (!current)
+		__exit(*stack);
 	while (current)
 	{
 		printf("%d\n", current->n);
@@ -33,17 +37,22 @@ void pall(stack_t **stack, __attribute__((unused))line_t *line)
 */
 void push(stack_t **stack, line_t *line)
 {
-
-
-
 	stack_t *newNode = NULL, *current = NULL;
+	char nb_line[15];
 
 	current = *stack;
+	if (!line->arg || !is_number(line->arg))
+	{
+		sprintf(nb_line, "%d", line->idx);
+		print_error("L", nb_line, ": usage: push integer", "");
+		return;
+	}
 	newNode = malloc(sizeof(stack_t));
-	/*
 	if (!newNode)
-		return (NULL);
-	*/
+	{
+		print_error("Error: malloc failed", "\n", "", "");
+		return;
+	}
 	newNode->n = atoi(line->arg);
 	newNode->next = NULL;
 
@@ -63,11 +72,6 @@ void push(stack_t **stack, line_t *line)
 		}
 		current = current->next;
 	}
-
-
-
-	/*
-*/
 }
 
 
@@ -82,6 +86,8 @@ void push(stack_t **stack, line_t *line)
 void (*get_builtin_func(line_t *inst))(stack_t**, line_t *)
 {
 	int i = 0, found = 0;
+	char nb_line[15];
+
 	instruction_t exec[] = {
 		{"push", push},
 		{"pall", pall},
@@ -91,9 +97,14 @@ void (*get_builtin_func(line_t *inst))(stack_t**, line_t *)
 	{
 		found = str_is_eq(exec[i].opcode, inst->command);
 		if (found)
+		{
 			return (exec[i].f);
+		}
 	}
 
+	sprintf(nb_line, "%d", inst->idx);
+	if (!found)
+		print_error("L", nb_line, ": unknown instruction ", inst->command);
 	return (NULL);
 }
 
@@ -103,7 +114,7 @@ void (*get_builtin_func(line_t *inst))(stack_t**, line_t *)
 *
 * Return: void
 */
-void check_for_built_in( stack_t **head_list, line_t *inst)
+char *check_for_built_in( stack_t **head_list, line_t *inst)
 {
 	void (*builtin_func)(stack_t **stack, line_t *line);
 
@@ -111,5 +122,7 @@ void check_for_built_in( stack_t **head_list, line_t *inst)
 	if (builtin_func)
 	{
 		builtin_func(head_list, inst);
+		return ("OK");
 	}
+	return (NULL);
 }

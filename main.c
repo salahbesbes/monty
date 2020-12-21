@@ -1,4 +1,4 @@
-#include "header.h"
+#include "monty.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,15 +6,8 @@
 #include "garbageCollector.h"
 
 
-#define isAlpha(X) ((X >= 'A' && X <= 'Z') || (X >= 'a' && X <= 'z'))
-#define isNotAlpha(X) ((X <= 'A' || X >= 'Z') && (X <= 'a' || X >= 'z'))
-#define isNum(X) (X >= '0' && X <= '9')
-#define isNotNum(X) (X < '0' || X > '9')
-
-
-FILE *stream;
-char *getlineStr;
-
+FILE *stream_ptr = NULL;
+char *line_ptr = NULL;
 
 /**
 * parse_line - parse an instruction by one or more char in the string
@@ -74,7 +67,7 @@ char *trim_instruction(char *inst, char *delim)
 	}
 	if (current[i] == '\0')
 	{
-		free(inst);
+		destroy_obj(inst);
 		return (NULL);
 	}
 	while (current[i])
@@ -121,24 +114,6 @@ char *check_for_comment(char *str)
 }
 
 /**
-* chech_format - check the order of the command and arg
-* @line: char *
-*
-* Return: 1
-* Error: 0
-*/
-int chech_format(char *line, stack_t *head_list)
-{
-	if (!line || isNum(*line))
-	{
-		__exit(head_list);
-		return (0);
-	}
-	else
-		return (1);
-}
-
-/**
 * core_program - handle all treatment of the line we get
 * @line: str
 * @idxLine: last ch of the string
@@ -148,8 +123,8 @@ int chech_format(char *line, stack_t *head_list)
 */
 char *core_program(char *line, int idxLine, stack_t **head_list)
 {
-	int istoken = 0;
-	char *token = NULL;
+	int istoken = 1;
+	char *token = NULL, *res = NULL;
 	line_t *instruction = NULL;
 
 	instruction = create_obj(sizeof(line_t));
@@ -161,9 +136,12 @@ char *core_program(char *line, int idxLine, stack_t **head_list)
 	if (!line || *line == '\0')
 		return (NULL);
 	line = trim_instruction(line, " \t\n");
+
 	if (!line || *line == '\0')
 		return (NULL);
-	istoken = chech_format(line, *head_list); /* i = 1 or 0 */
+	else if (*line == '\0')
+		return ("");
+
 	/* parse instruction into token and save them to struct */
 	while (istoken)
 	{
@@ -178,14 +156,9 @@ char *core_program(char *line, int idxLine, stack_t **head_list)
 			instruction->arg = token;
 		istoken++;
 	}
-	if (istoken == 0)
-		printf("first arg in int \n");
-	else
-	{
-		check_for_built_in(head_list, instruction);
-	}
 
-	return (NULL);
+	res = check_for_built_in(head_list, instruction);
+	return (res);
 }
 /**
 * read_file - read instruction line from a file
@@ -198,22 +171,29 @@ char *core_program(char *line, int idxLine, stack_t **head_list)
 int read_file(char *filename, stack_t **head_list)
 {
 	FILE *stream = NULL;
-	char *line = NULL, *newLine = NULL;
-	size_t len = 0;
-	int nread = 0;
-	int idxLine = 0;
+	char *line = NULL, *newLine = NULL, *res = NULL;
+	size_t len = 0, idxLine = 0;
+	ssize_t nread = 0;
+
 	if (!filename)
+	{
+		print_error("Error: Can't open file ", filename, "", "");
 		__exit(*head_list);
+	}
 	stream = fopen(filename, "r");
-	stream = stream;
 	if (!stream)
+	{
+		print_error("Error: Can't open file ", filename, "", "");
 		__exit(*head_list);
+	}
+	stream_ptr = stream;
 	while (1)
 	{
+
 		fflush(stdin);
 		fflush(stream);
 		nread = getline(&line, &len, stream);
-		getlineStr = line; /* we save the last getline into gc */
+		line_ptr = line;
 		idxLine++;
 		if (nread == -1)
 			break;
@@ -224,12 +204,21 @@ int read_file(char *filename, stack_t **head_list)
 		if (!line || line[0] == '\n' || line[0] == '#')
 			continue;
 		newLine = copy_obj(strlen(line) + 1, line);
-		core_program(newLine, idxLine, head_list);
+		res = core_program(newLine, idxLine, head_list);
+		if (!res)
+		{
+			//free(line_ptr);
+			//fclose(stream_ptr);
+			__exit(*head_list);
+		}
+		else if (*res == '\0')
+			continue;
+
 	}
-	free(line);
-	fclose(stream);
+	//free(line);
+	//fclose(stream);
 	__exit(*head_list);
-	return (nread);
+	return (EXIT_SUCCESS);
 }
 
 /**
@@ -240,11 +229,18 @@ int read_file(char *filename, stack_t **head_list)
 * Return: 0
 * Error: -1
 */
-int main(__attribute__((unused)) int argc,__attribute__((unused)) char *argv[])
+int main(int argc, char *argv[])
 {
 	stack_t *head_list = NULL;
 
-	read_file("./test1.m", &head_list);
+
+	if (argc != 2)
+	{
+		print_error("USAGE: monty file", "", "", "");
+		exit(EXIT_FAILURE);
+	}
+
+	read_file(argv[1], &head_list);
 
 	return (0);
 }

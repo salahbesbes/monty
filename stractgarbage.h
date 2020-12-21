@@ -25,6 +25,8 @@ void free_gc(gc_t *head);
 gc_t *insert_garbage_at_index(gc_t **h, unsigned int idx, void *garbage);
 size_t print_gc(const gc_t *h);
 int delete_garbage_at_index(gc_t **head, unsigned int index);
+gc_t *add_garbage_end(gc_t **head, void *garbage);
+gc_t *get_garbage_at_index(gc_t *head, unsigned int index);
 
 
 

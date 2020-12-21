@@ -10,6 +10,12 @@
 #include <unistd.h>
 
 
+#define isAlpha(X) ((X >= 'A' && X <= 'Z') || (X >= 'a' && X <= 'z'))
+#define isNotAlpha(X) ((X <= 'A' || X >= 'Z') && (X <= 'a' || X >= 'z'))
+#define isNum(X) (X >= '0' && X <= '9')
+#define isNotNum(X) (X < '0' || X > '9')
+
+
 /**
  * struct line_s - content of the line and its indx
  * @command: command name
@@ -62,7 +68,9 @@ int _putchar(char c);
 int _len(void **V);
 void __exit(stack_t *head_list);
 int str_is_eq(char *str1, char *str2);
-void check_for_built_in(stack_t **head_list, line_t *inst);
+char *check_for_built_in(stack_t **head_list, line_t *inst);
+void print_error(char *arg1, char *arg2, char *arg3, char *arg4);
+int is_number(char *str);
 
 
 #endif
