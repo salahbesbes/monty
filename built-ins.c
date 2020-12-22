@@ -123,9 +123,9 @@ void add(stack_t **stack, unsigned int line_nb)
 *
 * Return: void
 */
-void nop(stack_t **stack, __attribute__((unused))unsigned int line_nb)
+void nop(__attribute__((unused)) stack_t **stack, __attribute__((unused))unsigned int line_nb)
 {
-	__exit(*stack, 1);
+
 }
 
 
