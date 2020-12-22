@@ -123,7 +123,8 @@ void add(stack_t **stack, unsigned int line_nb)
 *
 * Return: void
 */
-void nop(__attribute__((unused)) stack_t **stack, __attribute__((unused))unsigned int line_nb)
+void nop(__attribute__((unused)) stack_t **stack,
+		__attribute__((unused))unsigned int line_nb)
 {
 
 }
@@ -154,6 +155,7 @@ void sub(stack_t **stack, unsigned int line_nb)
 
 	NextTop->n -= NextTop->n;
 	NextTop->prev = NULL;
+	*stack = NextTop;
 	free(top);
 
 }
@@ -198,6 +200,7 @@ void divv(stack_t **stack, unsigned int line_nb)
 	}
 	NextTop->n /= NextTop->n;
 	NextTop->prev = NULL;
+	*stack = NextTop;
 	free(top);
 
 }
@@ -242,6 +245,7 @@ void mul(stack_t **stack, unsigned int line_nb)
 	}
 	NextTop->n *= NextTop->n;
 	NextTop->prev = NULL;
+	*stack = NextTop;
 	free(top);
 
 }
@@ -281,6 +285,7 @@ void mod(stack_t **stack, unsigned int line_nb)
 
 	NextTop->n %= NextTop->n;
 	NextTop->prev = NULL;
+	*stack = NextTop;
 	free(top);
 
 }
