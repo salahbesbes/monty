@@ -87,8 +87,6 @@ void read_file(stack_t **head_list)
 		instruction->getlinePtr = line;
 		if (nread == -1)
 			break;
-		if (*line == '\n' || *line == '#')
-			continue;
 		instruction->idx = idxLine;
 		newLine = copy_obj(strlen(line) + 1, line);
 		treat_one_line(head_list, newLine);
