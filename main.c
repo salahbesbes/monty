@@ -39,7 +39,6 @@ int treat_one_line(stack_t **head_list, char *line)
 		return (2);
 	else if (instruction->command && instruction->command[0] != '#')
 		strtok(NULL, " \n\t\r\a");
-	strtok(NULL, " \n");
 
 	ret = check_for_built_in(head_list);
 	if (!ret)
