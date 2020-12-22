@@ -78,10 +78,12 @@ char *parse_line(char **instruction)
 		return (NULL);
 	while (**instruction)
 	{
-		if (**instruction == ' ' || **instruction == '\t')
+		if (**instruction == ' ' || **instruction == '\t' || **instruction == '\r'
+				|| **instruction == '\n')
 		{
 			**instruction = '\0';
-			while (isNotAlpha(**instruction) && isNotNum(**instruction))
+			while ((**instruction == ' ' || **instruction == '\t' || **instruction == '\r'
+				|| **instruction == '\n'))
 				(*instruction)++;
 			break;
 		}

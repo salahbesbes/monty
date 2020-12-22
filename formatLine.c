@@ -62,7 +62,7 @@ char *format_line(char *line)
 	*/
 	char *newLine = NULL;
 
-	newLine = trim_instruction(line, " \t");
+	newLine = trim_instruction(line, " \n\t\r");
 	/*
 	for (int i = 0; newLine[i]; i++)
 		printf("%d, ", newLine[i]);
