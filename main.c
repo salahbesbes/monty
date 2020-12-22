@@ -35,8 +35,11 @@ int treat_one_line(stack_t **head_list, char *line)
 	int res = 0;
 
 	instruction->command = strtok(line, " \n\t\r\a");
-	instruction->arg = strtok(NULL, " \n\t\r\a");
-
+	if (instruction->command && instruction->command[0] != '#')
+		instruction->arg = strtok(NULL, " \n\t\r\a");
+	else
+		return (2);
+	
 	/*
 	printf("instruction->arg = %s\n", instruction->arg);
 	printf("instruction->command = %s\n", instruction->command);
