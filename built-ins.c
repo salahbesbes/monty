@@ -19,7 +19,10 @@ void pint(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 
 	top = *stack;
 	if (!top)
+	{
 		fprintf(stderr, "L%u: can't pint, stack empty\n", line_nb);
+		__exit(*stack, 0);
+	}
 	printf("%d\n", top->n);
 }
 
@@ -278,14 +281,8 @@ void pchar(stack_t **stack, unsigned int line_nb)
 		__exit(*stack, 0);
 	}
 
-	while (top->next)
-	{
-		top = top->next;
-		len++;
-	}
-
-	if (NextTop->n > 32 && NextTop->n < 127)
-		printf("%c\n", NextTop->n);
+	if (top->n > 32 && top->n < 127)
+		printf("%c\n", top->n);
 	else
 	{
 		fprintf(stderr, "L%u: can't pchar, value out of range\n", line_nb);
@@ -306,21 +303,8 @@ void pchar(stack_t **stack, unsigned int line_nb)
 void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 {
 	stack_t *top = NULL;
-	int len = 1;
 
 	top = *stack;
-
-	if (!top)
-	{
-		printf("\n");
-		__exit(*stack, 0);
-	}
-
-	while (top->next)
-	{
-		top = top->next;
-		len++;
-	}
 	while (top)
 	{
 		if ((top->n < 32 && top->n >= 127) || top->n == 0)
