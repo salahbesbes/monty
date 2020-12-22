@@ -1,9 +1,7 @@
 #include "monty.h"
-#include "stractgarbage.h"
-#include <stdio.h>
 
-extern line_t *instruction;
-extern gc_t *gc;
+
+
 
 
 /**

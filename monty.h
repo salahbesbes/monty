@@ -79,8 +79,12 @@ int str_is_eq(char *str1, char *str2);
 void __exit(stack_t *head_list, int status);
 
 
-stack_t *add_dnodeint(stack_t **head, const int n);
+stack_t *add_stack(stack_t **head, const int n);
 size_t stack_len(const stack_t *h);
+stack_t *insert_stack_at_index(stack_t **h, unsigned int idx, int n);
+int delete_stack_at_index(stack_t **head, unsigned int index);
+stack_t *add_stack_end(stack_t **head, const int n);
+
 /*
 int _puts(char *str);
 int _putchar(char c);

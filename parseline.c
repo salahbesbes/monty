@@ -1,10 +1,5 @@
 #include "monty.h"
-#include "stractgarbage.h"
-#include <stdio.h>
-#include <string.h>
 
-extern line_t *instruction;
-extern gc_t *gc;
 /**
 * _ar_len - get the length of an array of something
 * @V: array

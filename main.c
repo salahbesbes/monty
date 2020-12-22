@@ -10,11 +10,10 @@ void __exit(stack_t *head_list, int status)
 {
 
 	free(instruction->getlinePtr);
-	fclose(instruction->stream);
-
 	free_stack(head_list);
 	free_gc(gc);
 
+	fclose(instruction->stream);
 	if (status)
 		exit(EXIT_SUCCESS);
 	else
@@ -39,7 +38,7 @@ int treat_one_line(stack_t **head_list, char *line)
 		instruction->arg = strtok(NULL, " \n\t\r\a");
 	else
 		return (2);
-	
+
 	/*
 	printf("instruction->arg = %s\n", instruction->arg);
 	printf("instruction->command = %s\n", instruction->command);
@@ -88,9 +87,9 @@ void read_file(stack_t **head_list)
 		if (nread == -1)
 			break;
 		instruction->idx = idxLine;
+		idxLine++;
 		newLine = copy_obj(strlen(line) + 1, line);
 		treat_one_line(head_list, newLine);
-		idxLine++;
 	}
 
 	__exit(*head_list, 1);
@@ -127,13 +126,6 @@ int main(int argc, char *argv[])
 	}
 	filename = argv[1];
 	init_instruction();
-	/*
-	if (!filename)
-	{
-		print_error("Error: Can't open file ", filename, "", "");
-		__exit(head_list);
-	}
-	*/
 	stream = fopen(filename, "r");
 	if (!stream)
 	{
@@ -143,7 +135,5 @@ int main(int argc, char *argv[])
 	instruction->stream = stream;
 
 	read_file(&head_list);
-	/*
-	*/
 	return (0);
 }

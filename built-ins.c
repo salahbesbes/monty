@@ -1,4 +1,5 @@
 #include "monty.h"
+#include "stractgarbage.h"
 #include <stdio.h>
 
 
@@ -63,7 +64,8 @@ void pop(stack_t **stack, unsigned int line_nb)
 */
 void swap(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *top = NULL, *beforetop = NULL;
+	stack_t *current = NULL;
+	int valTop = 0, valNextTop = 0;
 
 	current = *stack;
 
@@ -74,16 +76,13 @@ void swap(stack_t **stack, unsigned int line_nb)
 		__exit(*stack, 0);
 	}
 
-	top = current;
-	beforetop = current->next;
+	valTop = current->n;
+	valNextTop = current->next->n;
 
-	beforetop->prev = NULL;
-	top->prev = beforetop;
-	top->next = beforetop->next;
-	if (beforetop->next)
-		beforetop->next->prev = top;
-	beforetop->next = top;
-
+	delete_stack_at_index(stack, 0);
+	delete_stack_at_index(stack, 0);
+	add_stack(stack, valTop);
+	add_stack(stack, valNextTop);
 }
 
 /**

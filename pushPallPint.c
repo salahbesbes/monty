@@ -1,7 +1,6 @@
 #include "monty.h"
 
-extern line_t *instruction;
-extern gc_t *gc;
+
 /**
 * pall - print the stack
 * @stack: head_list
@@ -38,7 +37,7 @@ void push(stack_t **stack, unsigned int line_number)
 		__exit(*stack, 0);
 	}
 	n = atoi(instruction->arg);
-	newNode = add_dnodeint(stack, n);
+	newNode = add_stack(stack, n);
 	if (!newNode)
 	{
 		fprintf(stderr, "Error: malloc faile\n");
