@@ -270,8 +270,7 @@ void mod(stack_t **stack, unsigned int line_nb)
 */
 void pchar(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *top = NULL, *NextTop = NULL;
-	int len = 1;
+	stack_t *top = NULL;
 
 	top = *stack;
 
