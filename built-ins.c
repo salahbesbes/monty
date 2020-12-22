@@ -1,4 +1,5 @@
 #include "monty.h"
+#include <stdio.h>
 
 
 extern line_t *instruction;
@@ -15,8 +16,8 @@ void pint(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 	stack_t *current = NULL;
 
 	current = *stack;
-	while (current->next)
-		current = current->next;
+	if (!current)
+		fprintf(stderr ,"L%s: can't pint, stack empty", instruction->idx);
 	printf("%d\n", current->n);
 }
 
@@ -46,10 +47,9 @@ void pop(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 		*stack = NULL;
 		return;
 	}
-	while (current->next)
-		current = current->next;
 
-	current->prev->next = NULL;
+	*stack = current->next;
+	(*stack)->prev = NULL;
 	free(current);
 }
 
