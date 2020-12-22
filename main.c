@@ -17,7 +17,7 @@ void __exit(stack_t *head_list)
 
 	free_gc(gc);
 
-	exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
 
 
