@@ -36,12 +36,11 @@ char *trim_instruction(char *inst, char *delim)
 		return ("");
 	while (current[i])
 	{
-		if (current[i] >= 32 && current[i] <= 126)
+		if (isAlpha(current[i]) || isNum(current[i]))
 			idxEnd = i + 1;
 		i++;
 	}
 	current[idxEnd] = '\0';
-
 	newStr = copy_obj(strlen(current) + 1, current);
 	destroy_obj(inst);
 	return (newStr);
@@ -55,8 +54,21 @@ char *trim_instruction(char *inst, char *delim)
 */
 char *format_line(char *line)
 {
+	/*
+	for (int i = 0; line[i]; i++)
+		printf("%d - ", line[i]);
+	printf("line = %s\n", line);
+	printf("\n");
+	*/
 	char *newLine = NULL;
 
 	newLine = trim_instruction(line, " \t");
+	/*
+	for (int i = 0; newLine[i]; i++)
+		printf("%d, ", newLine[i]);
+	printf("newLine = %s\n", newLine);
+	printf("\n");
+	*/
+
 	return (newLine);
 }
