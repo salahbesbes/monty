@@ -306,7 +306,7 @@ void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	top = *stack;
 	while (top)
 	{
-		if ((top->n <= 32 && top->n >= 127) || top->n == 0)
+		if ((top->n <= 32 || top->n >= 127) || top->n == 0)
 			break;
 		else
 			printf("%c", top->n);
