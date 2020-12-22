@@ -6,7 +6,7 @@
 
 line_t *instruction = NULL;
 extern gc_t *gc;
-void __exit(stack_t *head_list)
+void __exit(stack_t *head_list, int status)
 {
 
 	if (instruction->getlinePtr)
@@ -16,8 +16,10 @@ void __exit(stack_t *head_list)
 	free_stack(head_list);
 
 	free_gc(gc);
-
-	exit(EXIT_FAILURE);
+	if (status)
+		exit(EXIT_SUCCESS);
+	else
+		exit(EXIT_FAILURE);
 }
 
 
@@ -45,7 +47,7 @@ int treat_one_line(stack_t **head_list, char *line)
 
 	ret = check_for_built_in(head_list);
 	if (!ret)
-		__exit(*head_list);
+		__exit(*head_list, 0);
 	return (res);
 }
 
@@ -94,9 +96,6 @@ void read_file(stack_t **head_list)
 	ssize_t nread = 0;
 	while (idxLine)
 	{
-		fflush(stderr);
-		fflush(stderr);
-		fflush(instruction->stream);
 		nread = getline(&line, &len, instruction->stream);
 		instruction->getlinePtr = line;
 		if (nread == -1)
@@ -109,7 +108,7 @@ void read_file(stack_t **head_list)
 		idxLine++;
 	}
 
-	__exit(*head_list);
+	__exit(*head_list, 1);
 }
 
 
@@ -139,7 +138,7 @@ int main(int argc, char *argv[])
 	if (!instruction)
 	{
 		print_error("Error: malloc failed","","","");
-		__exit(head_list);
+		__exit(head_list, 0);
 	}
 	filename = argv[1];
 	init_instruction();
@@ -154,7 +153,7 @@ int main(int argc, char *argv[])
 	if (!stream)
 	{
 		print_error("Error: Can't open file ", filename, "", "");
-		__exit(head_list);
+		__exit(head_list, 0);
 	}
 	instruction->stream = stream;
 

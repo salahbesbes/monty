@@ -63,14 +63,14 @@ void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
 	if (!instruction->arg || !is_number(instruction->arg))
 	{
 		fprintf(stderr, "L%s: usage: push integer\n", instruction->idx);
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
-    n = atoi(instruction->arg);
+	n = atoi(instruction->arg);
 	newNode = add_dnodeint(stack, n);
 	if (!newNode)
 	{
 		fprintf(stderr, "Error: malloc faile\n");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 }

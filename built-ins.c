@@ -38,7 +38,7 @@ void pop(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	{
 
 		print_error("L", instruction->idx, ": can't pop an empty stack", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 	if (current && !current->next)
 	{
@@ -71,7 +71,7 @@ void swap(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		print_error("L", instruction->idx, ": can't swap, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)
@@ -82,7 +82,7 @@ void swap(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (len < 2)
 	{
 		print_error("L", instruction->idx, ": can't swap, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	lastNode = current;
@@ -114,7 +114,7 @@ void add(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		print_error("L", instruction->idx, ": can't add, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)
@@ -125,7 +125,7 @@ void add(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (len < 2)
 	{
 		print_error("L", instruction->idx, ": can't add, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	lastNode = current;
@@ -148,7 +148,7 @@ void add(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 */
 void nop(stack_t **stack, __attribute__((unused))__attribute__((unused)) unsigned int line_nb)
 {
-	__exit(*stack);
+	__exit(*stack, 0);
 }
 
 
@@ -169,7 +169,7 @@ void sub(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		print_error("L", instruction->idx, ": can't sub, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)
@@ -180,7 +180,7 @@ void sub(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (len < 2)
 	{
 		print_error("L", instruction->idx, ": can't sub, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	lastNode = current;
@@ -210,7 +210,7 @@ void divv(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		print_error("L", instruction->idx, ": can't div, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)
@@ -221,7 +221,7 @@ void divv(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (len < 2)
 	{
 		print_error("L", instruction->idx, ": can't div, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	lastNode = current;
@@ -229,7 +229,7 @@ void divv(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (lastNode->n == 0)
 	{
 		print_error("L", instruction->idx, ": division by zero", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 	beforeLast->n /= lastNode->n;
 	beforeLast->next = NULL;
@@ -255,7 +255,7 @@ void mul(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		print_error("L", instruction->idx, ": can't mul, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)
@@ -266,7 +266,7 @@ void mul(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (len < 2)
 	{
 		print_error("L", instruction->idx, ": can't mul, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	lastNode = current;
@@ -274,7 +274,7 @@ void mul(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (lastNode->n == 0)
 	{
 		print_error("L", instruction->idx, ": division by zero", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 	beforeLast->n *= lastNode->n;
 	beforeLast->next = NULL;
@@ -299,7 +299,7 @@ void mod(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		print_error("L", instruction->idx, ": can't mod, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)
@@ -310,7 +310,7 @@ void mod(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (len < 2)
 	{
 		print_error("L", instruction->idx, ": can't mod, stack too short", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	lastNode = current;
@@ -339,7 +339,7 @@ void pchar(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		print_error("L", instruction->idx, ": can't pchar, stack empty", "");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)
@@ -354,7 +354,7 @@ void pchar(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	else
 	{
 		print_error("L", instruction->idx,": can't pchar, value out of range","");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 }
@@ -378,7 +378,7 @@ void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 	if (!current)
 	{
 		printf("\n");
-		__exit(*stack);
+		__exit(*stack, 0);
 	}
 
 	while (current->next)

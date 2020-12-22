@@ -74,7 +74,7 @@ void create_struct_instruction(char **ar_tokens);
 char *check_for_built_in( stack_t **head_list);
 int is_number(char *str);
 int str_is_eq(char *str1, char *str2);
-void __exit(stack_t *head_list);
+void __exit(stack_t *head_list, int status);
 
 /*
 int _puts(char *str);
