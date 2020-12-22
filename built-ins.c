@@ -153,7 +153,7 @@ void sub(stack_t **stack, unsigned int line_nb)
 
 	NextTop = top->next;
 
-	NextTop->n -= NextTop->n;
+	NextTop->n -= top->n;
 	NextTop->prev = NULL;
 	*stack = NextTop;
 	free(top);
@@ -175,30 +175,20 @@ void divv(stack_t **stack, unsigned int line_nb)
 
 	top = *stack;
 
-	if (!top)
-	{
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
-		__exit(*stack, 0);
-	}
-
-	while (top->next)
-	{
-		top = top->next;
-		len++;
-	}
+	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
+		fprintf(stderr, "L%u: can't div, stack too short", line_nb);
 		__exit(*stack, 0);
 	}
 
-	NextTop = top->next;
-	if (NextTop->n == 0)
+	if (top->n == 0)
 	{
 		fprintf(stderr, "L%u: division by zero", line_nb);
 		__exit(*stack, 0);
 	}
-	NextTop->n /= NextTop->n;
+	NextTop = top->next;
+	NextTop->n /= top->n;
 	NextTop->prev = NULL;
 	*stack = NextTop;
 	free(top);
@@ -220,30 +210,14 @@ void mul(stack_t **stack, unsigned int line_nb)
 
 	top = *stack;
 
-	if (!top)
-	{
-		fprintf(stderr, "L%u: division by zero", line_nb);
-		__exit(*stack, 0);
-	}
-
-	while (top->next)
-	{
-		top = top->next;
-		len++;
-	}
+	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: division by zero", line_nb);
+		fprintf(stderr, "L%u: can't mul, stack too short", line_nb);
 		__exit(*stack, 0);
 	}
-
 	NextTop = top->next;
-	if (NextTop->n == 0)
-	{
-		fprintf(stderr, "L%u: division by zero", line_nb);
-		__exit(*stack, 0);
-	}
-	NextTop->n *= NextTop->n;
+	NextTop->n *= top->n;
 	NextTop->prev = NULL;
 	*stack = NextTop;
 	free(top);
@@ -264,26 +238,20 @@ void mod(stack_t **stack, unsigned int line_nb)
 
 	top = *stack;
 
-	if (!top)
-	{
-		fprintf(stderr, "L%u: division by zero", line_nb);
-		__exit(*stack, 0);
-	}
-
-	while (top->next)
-	{
-		top = top->next;
-		len++;
-	}
+	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: division by zero", line_nb);
+		fprintf(stderr, "L%u: can't mod, stack too short", line_nb);
 		__exit(*stack, 0);
 	}
 
+	if (top->n == 0)
+	{
+		fprintf(stderr, "L%u: division by zero", line_nb);
+		__exit(*stack, 0);
+	}
 	NextTop = top->next;
-
-	NextTop->n %= NextTop->n;
+	NextTop->n /= top->n;
 	NextTop->prev = NULL;
 	*stack = NextTop;
 	free(top);
