@@ -88,7 +88,6 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 	instruction_t exec[] = {
 		{"push", push},
 		{"pall", pall},
-        /*
 		{"pint", pint},
 		{"pop", pop},
 		{"swap", swap},
@@ -100,6 +99,7 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 		{"mod", mod},
 		{"pchar", pchar},
 		{"pstr", pstr},
+		/*
 		{"rotl", rotl},
 		*/
         {NULL, NULL}

@@ -86,6 +86,7 @@ char *check_for_built_in(stack_t **head_list, line_t *inst);
 int is_number(char *str);
 char **create_ar_tokens(char **line);
 int _ar_len(void **V);
+*/
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
@@ -98,7 +99,6 @@ void nop(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
 void pstr(stack_t **stack, unsigned int line_number);
 void rotl(stack_t **stack, unsigned int line_number);
-*/
 
 
 #endif

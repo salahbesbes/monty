@@ -406,7 +406,6 @@ void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 * @line: instruction
 *
 * Return: void
-*/
 void rotl(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 {
 	stack_t *current = NULL, *firstNode = NULL, *top = NULL;
@@ -427,3 +426,4 @@ void rotl(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 
 	}
 }
+*/
