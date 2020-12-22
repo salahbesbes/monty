@@ -30,7 +30,7 @@ void free_stack(stack_t *head)
 
 
 /**
-* write_message - print an message at stderror
+* print_error - print an message at stderror
 * @arg1: msg
 * @arg2: msg
 * @arg3: msg
@@ -93,5 +93,3 @@ int is_number(char *str)
 	}
 	return (1);
 }
-
-

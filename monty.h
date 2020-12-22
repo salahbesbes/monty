@@ -73,7 +73,7 @@ char *format_line(char *line);
 void free_stack(stack_t *head);
 char **create_args(char *line);
 void create_struct_instruction(char **ar_tokens);
-char *check_for_built_in( stack_t **head_list);
+char *check_for_built_in(stack_t **head_list);
 int is_number(char *str);
 int str_is_eq(char *str1, char *str2);
 void __exit(stack_t *head_list, int status);
@@ -85,17 +85,6 @@ stack_t *insert_stack_at_index(stack_t **h, unsigned int idx, int n);
 int delete_stack_at_index(stack_t **head, unsigned int index);
 stack_t *add_stack_end(stack_t **head, const int n);
 
-/*
-int _puts(char *str);
-int _putchar(char c);
-int _len(void **V);
-void __exit(stack_t *head_list);
-int str_is_eq(char *str1, char *str2);
-char *check_for_built_in(stack_t **head_list, line_t *inst);
-int is_number(char *str);
-char **create_ar_tokens(char **line);
-int _ar_len(void **V);
-*/
 void pint(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);

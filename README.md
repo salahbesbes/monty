@@ -26,6 +26,5 @@ if argc == 2
 	for each line
 		we parse the line into command and args
 		we save it into struct global var
-		check for command  if found 
+		check for command  if found
 		we execute instruction
-

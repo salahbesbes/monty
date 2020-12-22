@@ -6,6 +6,13 @@
 
 line_t *instruction = NULL;
 
+/**
+ * __exit - exit adn free gc and stack adn close stream
+ * @head_list: head_list
+ * @status: status of exit
+ *
+ * Return: void
+ */
 void __exit(stack_t *head_list, int status)
 {
 
@@ -23,7 +30,7 @@ void __exit(stack_t *head_list, int status)
 
 /**
 * treat_one_line -  function
-* @stack_t: head_list
+* @head_list: head_list
 * @line: char *
 *
 * Return: int
@@ -48,11 +55,9 @@ int treat_one_line(stack_t **head_list, char *line)
 
 /**
 * init_instruction - init_instruction
-* @gc: gc
-*
 * Return: void
 */
-void init_instruction()
+void init_instruction(void)
 {
 
 	instruction->arg = NULL;
@@ -63,8 +68,7 @@ void init_instruction()
 }
 /**
 * read_file - treat every line of the file
-* @stack_t: head_list
-* @filename: char *
+* @head_list: head_list
 *
 * Return: void
 */
@@ -115,7 +119,7 @@ int main(int argc, char *argv[])
 	instruction = create_obj(sizeof(line_t));
 	if (!instruction)
 	{
-		print_error("Error: malloc failed","","","");
+		print_error("Error: malloc failed", "", "", "");
 		exit(EXIT_FAILURE);
 	}
 	filename = argv[1];

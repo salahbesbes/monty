@@ -7,12 +7,10 @@
 /**
 * get_builtin_func - check for the right function by checking the given command
 * name and frol a list of predefined functions
-* @inst: pointer to a struct instruction
 *
 * Return: void function(**stack_t, unsigned int idx)
-* Error: NULL
 */
-void (*get_builtin_func())(stack_t**, unsigned int )
+void (*get_builtin_func())(stack_t **, unsigned int)
 {
 	int i = 0, found = 0;
 
@@ -32,9 +30,7 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 		{"pstr", pstr},
 		{"rotl", rotl},
 		{"rotr", rotr},
-		/*
-		*/
-        {NULL, NULL}
+		{NULL, NULL}
 	};
 	for (i = 0; exec[i].opcode && instruction->command; i++)
 	{
@@ -46,13 +42,14 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 	}
 
 	if (!found)
-		fprintf(stderr, "L%u: unknown instruction %s\n", instruction->idx, instruction->command);
+		fprintf(stderr, "L%u: unknown instruction %s\n",
+				instruction->idx, instruction->command);
 	return (NULL);
 }
 
 /**
 * check_for_built_in - check if the built-in exist run it
-* @inst: struct instruction
+* @head_list: struct instruction
 *
 * Return: void
 */
