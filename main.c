@@ -9,11 +9,11 @@ line_t *instruction = NULL;
 void __exit(stack_t *head_list, int status)
 {
 
-	free(instruction->getlinePtr);
 	free_stack(head_list);
-	free_gc(gc);
 
+	free(instruction->getlinePtr);
 	fclose(instruction->stream);
+	free_gc(gc);
 	if (status)
 		exit(EXIT_SUCCESS);
 	else
@@ -30,21 +30,16 @@ void __exit(stack_t *head_list, int status)
 */
 int treat_one_line(stack_t **head_list, char *line)
 {
-	char *ret = NULL;
+	char *ret = NULL, *command = NULL;
 	int res = 0;
 
-	instruction->command = strtok(line, " \n\t\r\a");
-	if (instruction->command && instruction->command[0] != '#')
-		instruction->arg = strtok(NULL, " \n\t\r\a");
-	else
+	command = instruction->command;
+	command = strtok(line, " \n\t\r\a");
+	if (!command)
 		return (2);
-
-	/*
-	printf("instruction->arg = %s\n", instruction->arg);
-	printf("instruction->command = %s\n", instruction->command);
-	   printf("instruction->idx = %s\n", instruction->idx);
-	   printf("\n");
-	*/
+	else if (instruction->command && instruction->command[0] != '#')
+		strtok(NULL, " \n\t\r\a");
+	strtok(NULL, " \n");
 
 	ret = check_for_built_in(head_list);
 	if (!ret)
@@ -80,6 +75,7 @@ void read_file(stack_t **head_list)
 	size_t len = 0;
 	ssize_t nread = 0;
 	unsigned int idxLine = 1;
+
 	while (idxLine)
 	{
 		nread = getline(&line, &len, instruction->stream);
@@ -91,7 +87,6 @@ void read_file(stack_t **head_list)
 		newLine = copy_obj(strlen(line) + 1, line);
 		treat_one_line(head_list, newLine);
 	}
-
 	__exit(*head_list, 1);
 }
 
