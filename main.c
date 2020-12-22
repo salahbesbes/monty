@@ -30,12 +30,11 @@ void __exit(stack_t *head_list, int status)
 */
 int treat_one_line(stack_t **head_list, char *line)
 {
-	char *ret = NULL, *command = NULL;
+	char *ret = NULL;
 	int res = 0;
 
-	command = instruction->command;
-	command = strtok(line, " \n\t\r\a");
-	if (!command)
+	instruction->command = strtok(line, " \n\t\r\a");
+	if (!instruction->command)
 		return (2);
 	else if (instruction->command && instruction->command[0] != '#')
 	{
