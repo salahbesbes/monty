@@ -31,6 +31,7 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 		{"pchar", pchar},
 		{"pstr", pstr},
 		{"rotl", rotl},
+		{"rotr", rotr},
 		/*
 		*/
         {NULL, NULL}

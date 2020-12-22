@@ -1,6 +1,7 @@
 #include "monty.h"
 #include "stractgarbage.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 
 
@@ -336,4 +337,39 @@ void rotl(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 		add_stack_end(stack, top->n);
 		delete_stack_at_index(stack, 0);
 	}
+}
+
+
+
+
+/**
+* rotr - The opcode rotr rotates the stack to the bottom.
+* @stack: head of stack
+* @line: instruction
+*
+* Return: void
+*/
+void rotr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
+{
+	stack_t *top = NULL, *current = NULL;
+	int i = 0;
+
+	top = *stack;
+	current = *stack;
+	int ar[1000];
+
+	while (current)
+	{
+		ar[i] = current->n;
+		i++;
+		current = current->next;
+	}
+	i--;
+	while (top)
+	{
+		top->n = ar[i];
+		i--;
+		top = top->next;
+	}
+
 }
