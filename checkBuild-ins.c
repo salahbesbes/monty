@@ -24,7 +24,7 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 		{"swap", swap},
 		{"add", add},
 		{"nop", nop},
-		{"divv", divv},
+		{"div", divv},
 		{"sub", sub},
 		{"mul", mul},
 		{"mod", mod},

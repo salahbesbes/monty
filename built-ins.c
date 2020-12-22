@@ -19,7 +19,7 @@ void pint(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 
 	top = *stack;
 	if (!top)
-		fprintf(stderr, "L%u: can't pint, stack empty", line_nb);
+		fprintf(stderr, "L%u: can't pint, stack empty\n", line_nb);
 	printf("%d\n", top->n);
 }
 
@@ -39,7 +39,7 @@ void pop(stack_t **stack, unsigned int line_nb)
 	if (!top)
 	{
 
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
+		fprintf(stderr, "L%u: can't pop an empty stack\n", line_nb);
 		__exit(*stack, 0);
 	}
 	if (top && !top->next)
@@ -72,7 +72,7 @@ void swap(stack_t **stack, unsigned int line_nb)
 	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't swap, stack too short", line_nb);
+		fprintf(stderr, "L%u: can't swap, stack too short\n", line_nb);
 		__exit(*stack, 0);
 	}
 	valTop = top->n;
@@ -101,7 +101,7 @@ void add(stack_t **stack, unsigned int line_nb)
 	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't add, stack too short", line_nb);
+		fprintf(stderr, "L%u: can't add, stack too short\n", line_nb);
 		__exit(*stack, 0);
 	}
 
@@ -147,7 +147,7 @@ void sub(stack_t **stack, unsigned int line_nb)
 	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't sub, stack too short", line_nb);
+		fprintf(stderr, "L%u: can't sub, stack too short\n", line_nb);
 		__exit(*stack, 0);
 	}
 
@@ -178,13 +178,13 @@ void divv(stack_t **stack, unsigned int line_nb)
 	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't div, stack too short", line_nb);
+		fprintf(stderr, "L%u: can't div, stack too short\n", line_nb);
 		__exit(*stack, 0);
 	}
 
 	if (top->n == 0)
 	{
-		fprintf(stderr, "L%u: division by zero", line_nb);
+		fprintf(stderr, "L%u: division by zero\n", line_nb);
 		__exit(*stack, 0);
 	}
 	NextTop = top->next;
@@ -213,7 +213,7 @@ void mul(stack_t **stack, unsigned int line_nb)
 	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't mul, stack too short", line_nb);
+		fprintf(stderr, "L%u: can't mul, stack too short\n", line_nb);
 		__exit(*stack, 0);
 	}
 	NextTop = top->next;
@@ -241,17 +241,17 @@ void mod(stack_t **stack, unsigned int line_nb)
 	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't mod, stack too short", line_nb);
+		fprintf(stderr, "L%u: can't mod, stack too short\n", line_nb);
 		__exit(*stack, 0);
 	}
 
 	if (top->n == 0)
 	{
-		fprintf(stderr, "L%u: division by zero", line_nb);
+		fprintf(stderr, "L%u: division by zero\n", line_nb);
 		__exit(*stack, 0);
 	}
 	NextTop = top->next;
-	NextTop->n /= top->n;
+	NextTop->n %= top->n;
 	NextTop->prev = NULL;
 	*stack = NextTop;
 	free(top);
@@ -274,7 +274,7 @@ void pchar(stack_t **stack, unsigned int line_nb)
 
 	if (!top)
 	{
-		fprintf(stderr, "L%u: can't pchar, stack empty", line_nb);
+		fprintf(stderr, "L%u: can't pchar, stack empty\n", line_nb);
 		__exit(*stack, 0);
 	}
 
@@ -288,7 +288,7 @@ void pchar(stack_t **stack, unsigned int line_nb)
 		printf("%c\n", NextTop->n);
 	else
 	{
-		fprintf(stderr, "L%u: can't pchar, value out of range", line_nb);
+		fprintf(stderr, "L%u: can't pchar, value out of range\n", line_nb);
 		__exit(*stack, 0);
 	}
 
