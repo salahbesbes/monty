@@ -353,10 +353,10 @@ void rotr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 {
 	stack_t *top = NULL, *current = NULL;
 	int i = 0;
+	int ar[1000];
 
 	top = *stack;
 	current = *stack;
-	int ar[1000];
 
 	while (current)
 	{
