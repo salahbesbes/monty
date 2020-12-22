@@ -2,11 +2,6 @@
 
 extern line_t *instruction;
 extern gc_t *gc;
-
-
-
-extern line_t *instruction;
-extern gc_t *gc;
 /**
 * pall - print the stack
 * @stack: head_list
@@ -35,7 +30,7 @@ void pall(stack_t **stack, unsigned int line_number)
 void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *newNode = NULL;
-    int n = 0;
+	int n = 0;
 
 	if (!instruction->arg || !is_number(instruction->arg))
 	{

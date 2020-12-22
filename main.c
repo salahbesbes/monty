@@ -6,16 +6,16 @@
 
 line_t *instruction = NULL;
 extern gc_t *gc;
+
 void __exit(stack_t *head_list, int status)
 {
 
-	if (instruction->getlinePtr)
-		free(instruction->getlinePtr);
-	if (instruction->stream)
-		fclose(instruction->stream);
-	free_stack(head_list);
+	free(instruction->getlinePtr);
+	fclose(instruction->stream);
 
+	free_stack(head_list);
 	free_gc(gc);
+
 	if (status)
 		exit(EXIT_SUCCESS);
 	else
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 	if (!instruction)
 	{
 		print_error("Error: malloc failed","","","");
-		__exit(head_list, 0);
+		exit(EXIT_FAILURE);
 	}
 	filename = argv[1];
 	init_instruction();
