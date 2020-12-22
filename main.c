@@ -5,7 +5,6 @@
 #include <string.h>
 
 line_t *instruction = NULL;
-extern gc_t *gc;
 
 void __exit(stack_t *head_list, int status)
 {

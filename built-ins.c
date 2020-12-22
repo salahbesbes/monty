@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 
-extern line_t *instruction;
 
 
 

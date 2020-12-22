@@ -16,6 +16,7 @@
 #define isNotNum(X) (X < '0' || X > '9')
 
 
+
 /**
  * struct line_s - content of the line and its indx
  * @command: command name
@@ -33,7 +34,8 @@ typedef struct line_s
 	FILE *stream;
 } line_t;
 
-
+extern gc_t *gc;
+extern line_t *instruction;
 
 
 /**
