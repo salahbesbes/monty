@@ -47,7 +47,7 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 	}
 
 	if (!found)
-		fprintf(stderr, "L%u: unknown instruction\n", instruction->idx);
+		fprintf(stderr, "L%u: unknown instruction %s\n", instruction->idx, instruction->command);
 	return (NULL);
 }
 
