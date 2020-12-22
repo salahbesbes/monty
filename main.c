@@ -30,18 +30,11 @@ void __exit(stack_t *head_list)
 */
 int treat_one_line(stack_t **head_list, char *line)
 {
-	char *newLine = NULL, *ret = NULL;
-	char **ar_tokens = NULL;
+	char *ret = NULL;
 	int res = 0;
 
-	newLine = format_line(line);
-	if (*newLine == '\0')
-		return (2);
-	if (newLine == NULL)
-		return (2);
-
-	ar_tokens = create_args(newLine);
-	create_struct_instruction(ar_tokens);
+	instruction->command = strtok(line, " \n\t\r\a");
+	instruction->arg = strtok(NULL, " \n\t\r\a");
 
 	/*
 	printf("instruction->arg = %s\n", instruction->arg);
