@@ -101,11 +101,15 @@ void read_file(stack_t **head_list)
 	ssize_t nread = 0;
 	while (idxLine)
 	{
-		fflush(stdin);
+		fflush(stderr);
+		fflush(stderr);
+		fflush(instruction->stream);
 		nread = getline(&line, &len, instruction->stream);
 		instruction->getlinePtr = line;
 		if (nread == -1)
 			break;
+		if (*line == '\n' || *line == '#')
+			continue;
 		update_line_nb(idxLine);
 		newLine = copy_obj(strlen(line) + 1, line);
 		treat_one_line(head_list, newLine);
