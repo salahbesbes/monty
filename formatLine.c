@@ -36,7 +36,7 @@ char *trim_instruction(char *inst, char *delim)
 		return ("");
 	while (current[i])
 	{
-		if (isAlpha(current[i]) || isNum(current[i]))
+		if (current[i] >= 32 && current[i] <= 126)
 			idxEnd = i + 1;
 		i++;
 	}
