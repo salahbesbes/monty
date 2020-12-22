@@ -19,10 +19,9 @@ void pint(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 
 	current = *stack;
 	if (!current)
-		fprintf(stderr, "L%s: can't pint, stack empty", instruction->idx);
+		fprintf(stderr, "L%u: can't pint, stack empty", line_nb);
 	printf("%d\n", current->n);
 }
-
 
 /**
 * pop - free the top (tail) of the stack
@@ -66,7 +65,6 @@ void pop(stack_t **stack, unsigned int line_nb)
 void swap(stack_t **stack, unsigned int line_nb)
 {
 	stack_t *current = NULL, *top = NULL, *beforetop = NULL;
-	int len = 1;
 
 	current = *stack;
 
@@ -361,7 +359,7 @@ void pchar(stack_t **stack, unsigned int line_nb)
 *
 * Return: void
 */
-void pstr(stack_t **stack, unsigned int line_nb)
+void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 {
 	stack_t *current = NULL;
 	int len = 1;
