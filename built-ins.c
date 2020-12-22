@@ -15,12 +15,12 @@
 */
 void pint(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 {
-	stack_t *current = NULL;
+	stack_t *top = NULL;
 
-	current = *stack;
-	if (!current)
+	top = *stack;
+	if (!top)
 		fprintf(stderr, "L%u: can't pint, stack empty", line_nb);
-	printf("%d\n", current->n);
+	printf("%d\n", top->n);
 }
 
 /**
@@ -32,26 +32,26 @@ void pint(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 */
 void pop(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL;
+	stack_t *top = NULL;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
+	if (!top)
 	{
 
 		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
 		__exit(*stack, 0);
 	}
-	if (current && !current->next)
+	if (top && !top->next)
 	{
-		free(current);
+		free(top);
 		*stack = NULL;
 		return;
 	}
 
-	*stack = current->next;
+	*stack = top->next;
 	(*stack)->prev = NULL;
-	free(current);
+	free(top);
 }
 
 
@@ -64,20 +64,19 @@ void pop(stack_t **stack, unsigned int line_nb)
 */
 void swap(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL;
-	int valTop = 0, valNextTop = 0;
+	stack_t *top = NULL;
+	int len = 0, valTop = 0, valNextTop = 0;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
+	len = stack_len(*stack);
+	if (len < 2)
 	{
-
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
+		fprintf(stderr, "L%u: can't swap, stack too short", line_nb);
 		__exit(*stack, 0);
 	}
-
-	valTop = current->n;
-	valNextTop = current->next->n;
+	valTop = top->n;
+	valNextTop = top->next->n;
 
 	delete_stack_at_index(stack, 0);
 	delete_stack_at_index(stack, 0);
@@ -94,35 +93,24 @@ void swap(stack_t **stack, unsigned int line_nb)
 */
 void add(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *lastNode = NULL, *beforeLast = NULL;
-	int len = 1;
+	stack_t *top = NULL, *NextTop = NULL;
+	size_t len = 0;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
-	{
-
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
-		__exit(*stack, 0);
-	}
-
-	while (current->next)
-	{
-		current = current->next;
-		len++;
-	}
+	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
+		fprintf(stderr, "L%u: can't add, stack too short", line_nb);
 		__exit(*stack, 0);
 	}
 
-	lastNode = current;
-	beforeLast = current->prev;
+	NextTop = top->next;
 
-	beforeLast->n += lastNode->n;
-	beforeLast->next = NULL;
-	free(lastNode);
+	NextTop->n += top->n;
+	NextTop->prev = NULL;
+	*stack = NextTop;
+	free(top);
 
 }
 
@@ -137,7 +125,7 @@ void add(stack_t **stack, unsigned int line_nb)
 */
 void nop(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 {
-	__exit(*stack, 0);
+	__exit(*stack, 1);
 }
 
 
@@ -150,34 +138,23 @@ void nop(stack_t **stack, __attribute__((unused))unsigned int line_nb)
 */
 void sub(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *lastNode = NULL, *beforeLast = NULL;
+	stack_t *top = NULL, *NextTop = NULL;
 	int len = 1;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
-	{
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
-		__exit(*stack, 0);
-	}
-
-	while (current->next)
-	{
-		current = current->next;
-		len++;
-	}
+	len = stack_len(*stack);
 	if (len < 2)
 	{
-		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
+		fprintf(stderr, "L%u: can't sub, stack too short", line_nb);
 		__exit(*stack, 0);
 	}
 
-	lastNode = current;
-	beforeLast = current->prev;
+	NextTop = top->next;
 
-	beforeLast->n -= lastNode->n;
-	beforeLast->next = NULL;
-	free(lastNode);
+	NextTop->n -= NextTop->n;
+	NextTop->prev = NULL;
+	free(top);
 
 }
 
@@ -191,20 +168,20 @@ void sub(stack_t **stack, unsigned int line_nb)
 */
 void divv(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *lastNode = NULL, *beforeLast = NULL;
+	stack_t *top = NULL, *NextTop = NULL;
 	int len = 1;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
+	if (!top)
 	{
 		fprintf(stderr, "L%u: can't pop an empty stack", line_nb);
 		__exit(*stack, 0);
 	}
 
-	while (current->next)
+	while (top->next)
 	{
-		current = current->next;
+		top = top->next;
 		len++;
 	}
 	if (len < 2)
@@ -213,16 +190,15 @@ void divv(stack_t **stack, unsigned int line_nb)
 		__exit(*stack, 0);
 	}
 
-	lastNode = current;
-	beforeLast = current->prev;
-	if (lastNode->n == 0)
+	NextTop = top->next;
+	if (NextTop->n == 0)
 	{
 		fprintf(stderr, "L%u: division by zero", line_nb);
 		__exit(*stack, 0);
 	}
-	beforeLast->n /= lastNode->n;
-	beforeLast->next = NULL;
-	free(lastNode);
+	NextTop->n /= NextTop->n;
+	NextTop->prev = NULL;
+	free(top);
 
 }
 
@@ -236,20 +212,20 @@ void divv(stack_t **stack, unsigned int line_nb)
 */
 void mul(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *lastNode = NULL, *beforeLast = NULL;
+	stack_t *top = NULL, *NextTop = NULL;
 	int len = 1;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
+	if (!top)
 	{
 		fprintf(stderr, "L%u: division by zero", line_nb);
 		__exit(*stack, 0);
 	}
 
-	while (current->next)
+	while (top->next)
 	{
-		current = current->next;
+		top = top->next;
 		len++;
 	}
 	if (len < 2)
@@ -258,16 +234,15 @@ void mul(stack_t **stack, unsigned int line_nb)
 		__exit(*stack, 0);
 	}
 
-	lastNode = current;
-	beforeLast = current->prev;
-	if (lastNode->n == 0)
+	NextTop = top->next;
+	if (NextTop->n == 0)
 	{
 		fprintf(stderr, "L%u: division by zero", line_nb);
 		__exit(*stack, 0);
 	}
-	beforeLast->n *= lastNode->n;
-	beforeLast->next = NULL;
-	free(lastNode);
+	NextTop->n *= NextTop->n;
+	NextTop->prev = NULL;
+	free(top);
 
 }
 
@@ -280,20 +255,20 @@ void mul(stack_t **stack, unsigned int line_nb)
 */
 void mod(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *lastNode = NULL, *beforeLast = NULL;
+	stack_t *top = NULL, *NextTop = NULL;
 	int len = 1;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
+	if (!top)
 	{
 		fprintf(stderr, "L%u: division by zero", line_nb);
 		__exit(*stack, 0);
 	}
 
-	while (current->next)
+	while (top->next)
 	{
-		current = current->next;
+		top = top->next;
 		len++;
 	}
 	if (len < 2)
@@ -302,12 +277,11 @@ void mod(stack_t **stack, unsigned int line_nb)
 		__exit(*stack, 0);
 	}
 
-	lastNode = current;
-	beforeLast = current->prev;
+	NextTop = top->next;
 
-	beforeLast->n %= lastNode->n;
-	beforeLast->next = NULL;
-	free(lastNode);
+	NextTop->n %= NextTop->n;
+	NextTop->prev = NULL;
+	free(top);
 
 }
 
@@ -320,26 +294,25 @@ void mod(stack_t **stack, unsigned int line_nb)
 */
 void pchar(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *lastNode = NULL;
+	stack_t *top = NULL, *NextTop = NULL;
 	int len = 1;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
+	if (!top)
 	{
 		fprintf(stderr, "L%u: can't pchar, stack empty", line_nb);
 		__exit(*stack, 0);
 	}
 
-	while (current->next)
+	while (top->next)
 	{
-		current = current->next;
+		top = top->next;
 		len++;
 	}
 
-	lastNode = current;
-	if (lastNode->n > 32 && lastNode->n < 127)
-		printf("%c\n", lastNode->n);
+	if (NextTop->n > 32 && NextTop->n < 127)
+		printf("%c\n", NextTop->n);
 	else
 	{
 		fprintf(stderr, "L%u: can't pchar, value out of range", line_nb);
@@ -359,29 +332,29 @@ void pchar(stack_t **stack, unsigned int line_nb)
 */
 void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 {
-	stack_t *current = NULL;
+	stack_t *top = NULL;
 	int len = 1;
 
-	current = *stack;
+	top = *stack;
 
-	if (!current)
+	if (!top)
 	{
 		printf("\n");
 		__exit(*stack, 0);
 	}
 
-	while (current->next)
+	while (top->next)
 	{
-		current = current->next;
+		top = top->next;
 		len++;
 	}
-	while (current)
+	while (top)
 	{
-		if ((current->n < 32 && current->n >= 127) || current->n == 0)
+		if ((top->n < 32 && top->n >= 127) || top->n == 0)
 			break;
 		else
-			printf("%c", current->n);
-		current = current->prev;
+			printf("%c", top->n);
+		top = top->next;
 	}
 	printf("\n");
 
@@ -397,21 +370,21 @@ void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 * Return: void
 void rotl(stack_t **stack, unsigned int line_nb)
 {
-	stack_t *current = NULL, *firstNode = NULL, *top = NULL;
+	stack_t *top = NULL, *firstNode = NULL, *top = NULL;
 	int len = 1;
 
-	current = *stack;
+	top = *stack;
 
-	if (current && current->next)
+	if (top && top->next)
 	{
-		firstNode = current;
+		firstNode = top;
 		printf("f->n = %d\n", firstNode->n);
-		while (current->next)
+		while (top->next)
 		{
-			current = current->next;
+			top = top->next;
 			len++;
 		}
-		top = current;
+		top = top;
 
 	}
 }
