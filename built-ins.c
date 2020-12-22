@@ -324,24 +324,16 @@ void pstr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 * @line: instruction
 *
 * Return: void
-void rotl(stack_t **stack, unsigned int line_nb)
+*/
+void rotl(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 {
-	stack_t *top = NULL, *firstNode = NULL, *top = NULL;
-	int len = 1;
+	stack_t *top = NULL;
 
 	top = *stack;
 
-	if (top && top->next)
+	if (top->next)
 	{
-		firstNode = top;
-		printf("f->n = %d\n", firstNode->n);
-		while (top->next)
-		{
-			top = top->next;
-			len++;
-		}
-		top = top;
-
+		add_stack_end(stack, top->n);
+		delete_stack_at_index(stack, 0);
 	}
 }
-*/

@@ -30,8 +30,8 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 		{"mod", mod},
 		{"pchar", pchar},
 		{"pstr", pstr},
-		/*
 		{"rotl", rotl},
+		/*
 		*/
         {NULL, NULL}
 	};
