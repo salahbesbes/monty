@@ -331,7 +331,7 @@ void rotl(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 
 	top = *stack;
 
-	if (top->next)
+	if (top)
 	{
 		add_stack_end(stack, top->n);
 		delete_stack_at_index(stack, 0);
