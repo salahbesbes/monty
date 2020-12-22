@@ -351,25 +351,21 @@ void rotl(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 */
 void rotr(stack_t **stack, __attribute__((unused)) unsigned int line_nb)
 {
-	stack_t *top = NULL, *current = NULL;
+	stack_t *current = NULL;
 	int i = 0;
-	int ar[1000];
+	int len = 0;
 
-	top = *stack;
 	current = *stack;
-
-	while (current)
+	len = stack_len(*stack);
+	while (1)
 	{
-		ar[i] = current->n;
-		i++;
+		if (!current)
+			break;
+		add_stack(stack, current->n);
 		current = current->next;
+		i++;
 	}
-	i--;
-	while (top)
-	{
-		top->n = ar[i];
-		i--;
-		top = top->next;
-	}
-
+	i *= 2;
+	for (; i > len - 1; i--)
+		delete_stack_at_index(stack, i);
 }
