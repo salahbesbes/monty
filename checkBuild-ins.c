@@ -47,7 +47,7 @@ void (*get_builtin_func())(stack_t**, unsigned int )
 	}
 
 	if (!found)
-		print_error("L", instruction->idx, ": unknown instruction ", instruction->command);
+		fprintf(stderr, "L%u: unknown instruction\n", instruction->idx);
 	return (NULL);
 }
 
@@ -64,7 +64,7 @@ char *check_for_built_in(stack_t **head_list)
 	builtin_func = get_builtin_func();
 	if (builtin_func)
 	{
-		builtin_func(head_list, atoi(instruction->idx));
+		builtin_func(head_list, instruction->idx);
 		return ("OK");
 	}
 	return (NULL);

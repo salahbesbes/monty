@@ -52,22 +52,6 @@ int treat_one_line(stack_t **head_list, char *line)
 }
 
 /**
-* update_line_nb - update_line_nb
-* @idxLine: line_nb
-* @gc: gc
-*
-* Return: void
-*/
-void update_line_nb(int idxLine)
-{
-	char line_nb[15], *nbline = NULL;
-
-	sprintf(line_nb, "%d", idxLine);
-	nbline = copy_obj(strlen(line_nb) + 1, line_nb);
-	instruction->idx = nbline;
-}
-
-/**
 * init_instruction - init_instruction
 * @gc: gc
 *
@@ -92,8 +76,9 @@ void init_instruction()
 void read_file(stack_t **head_list)
 {
 	char *line = NULL, *newLine = NULL;
-	size_t len = 0, idxLine = 1;
+	size_t len = 0;
 	ssize_t nread = 0;
+	unsigned int idxLine = 1;
 	while (idxLine)
 	{
 		nread = getline(&line, &len, instruction->stream);
@@ -102,7 +87,7 @@ void read_file(stack_t **head_list)
 			break;
 		if (*line == '\n' || *line == '#')
 			continue;
-		update_line_nb(idxLine);
+		instruction->idx = idxLine;
 		newLine = copy_obj(strlen(line) + 1, line);
 		treat_one_line(head_list, newLine);
 		idxLine++;

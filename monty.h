@@ -28,7 +28,7 @@ typedef struct line_s
 {
 	char *command;
 	char *arg;
-	char *idx;
+	unsigned int idx;
 	char *getlinePtr;
 	FILE *stream;
 } line_t;
@@ -76,6 +76,9 @@ int is_number(char *str);
 int str_is_eq(char *str1, char *str2);
 void __exit(stack_t *head_list, int status);
 
+
+stack_t *add_dnodeint(stack_t **head, const int n);
+size_t stack_len(const stack_t *h);
 /*
 int _puts(char *str);
 int _putchar(char c);

@@ -3,31 +3,7 @@
 extern line_t *instruction;
 extern gc_t *gc;
 
-/**
-* add_dnodeint - add node to the fromm of the list
-* @head: head
-* @n: head
-*
-* Return: newNode
-*/
 
-stack_t *add_dnodeint(stack_t **head, const int n)
-{
-	stack_t *newNode = NULL;
-
-	newNode = malloc(sizeof(stack_t));
-	if (!newNode)
-		return (NULL);
-
-	newNode->n = n;
-	newNode->prev = NULL;
-	newNode->next = *head;
-	if (*head)
-		(*head)->prev = newNode;
-	*head = newNode;
-	return (newNode);
-
-}
 
 extern line_t *instruction;
 extern gc_t *gc;
@@ -38,10 +14,11 @@ extern gc_t *gc;
 *
 * Return: void
 */
-void pall(stack_t **stack,  __attribute__((unused)) unsigned int line_number)
+void pall(stack_t **stack, unsigned int line_number)
 {
 	const stack_t *current = *stack;
 
+	(void)line_number;
 	while (current)
 	{
 		printf("%d\n", current->n);
@@ -55,14 +32,14 @@ void pall(stack_t **stack,  __attribute__((unused)) unsigned int line_number)
 *
 * Return: void
 */
-void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *newNode = NULL;
     int n = 0;
 
 	if (!instruction->arg || !is_number(instruction->arg))
 	{
-		fprintf(stderr, "L%s: usage: push integer\n", instruction->idx);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		__exit(*stack, 0);
 	}
 	n = atoi(instruction->arg);
