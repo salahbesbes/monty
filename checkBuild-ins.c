@@ -1,76 +1,9 @@
 #include "monty.h"
 #include "stractgarbage.h"
+#include <stdio.h>
 
 extern line_t *instruction;
 extern gc_t *gc;
-/**
-* pall - print the stack
-* @stack: head_list
-* @line_number: idx of the line
-*
-* Return: void
-*/
-void pall(stack_t **stack,  __attribute__((unused)) unsigned int line_number)
-{
-	const stack_t *current = NULL;
-
-	current = *stack;
-	if (!current)
-		return;
-	while (current->next)
-		current = current->next;
-	while (current)
-	{
-		printf("%d\n", current->n);
-		current = current->prev;
-	}
-}
-
-
-
-/**
-* push - push to the stack
-* @stack: head_list
-* @line_number: idx of the line
-*
-* Return: void
-*/
-void push(stack_t **stack, __attribute__((unused)) unsigned int line_number)
-{
-	stack_t *newNode = NULL, *current = NULL;
-
-	current = *stack;
-	if (!instruction->arg || !is_number(instruction->arg))
-	{
-		print_error("L", instruction->idx, ": usage: push integer", "");
-		__exit(*stack);
-	}
-	newNode = malloc(sizeof(stack_t));
-	if (!newNode)
-	{
-		print_error("Error: malloc failed", "", "", "");
-		__exit(*stack);
-	}
-	newNode->n = atoi(instruction->arg);
-	newNode->next = NULL;
-
-	if (!*stack)
-	{
-		newNode->prev = NULL;
-		*stack = newNode;
-		return;
-	}
-	while (1)
-	{
-		if (current->next == NULL)
-		{
-			current->next = newNode;
-			newNode->prev = current;
-			break;
-		}
-		current = current->next;
-	}
-}
 
 
 /**

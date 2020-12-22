@@ -262,6 +262,3 @@ int delete_garbage_at_index(gc_t **head, unsigned int index)
 		return (-1);
 	return (1);
 }
-
-
-
