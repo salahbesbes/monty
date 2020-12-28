@@ -19,7 +19,8 @@ void __exit(stack_t *head_list, int status)
 	free_stack(head_list);
 
 	free(instruction->getlinePtr);
-	fclose(instruction->stream);
+	if (instruction->stream)
+		fclose(instruction->stream);
 	free_gc(gc);
 	if (status)
 		exit(EXIT_SUCCESS);
